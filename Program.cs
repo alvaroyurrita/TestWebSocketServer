@@ -7,6 +7,8 @@ using WebSocketSharp;
 Debug.WriteLine("Creating WebSocket Server Behaviors!");
 var paths = new List<string>() { "home", "office", "kitchen" };
 var server = new WebSocketSharp.Server.WebSocketServer($"ws://0.0.0.0:58000") { ReuseAddress = true };
+var log = server.Log;
+log.Output = (data, s) => { }; //mutes all websocket error logs.
 foreach (var path in paths)
 {
     server.AddWebSocketService<Behavior>($"/{path}", b => b.Path = path);
