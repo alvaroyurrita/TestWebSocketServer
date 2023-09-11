@@ -5,7 +5,7 @@ using WebSocketServer;
 using WebSocketSharp;
 
 Debug.WriteLine("Creating WebSocket Server Behaviors!");
-var paths = new List<string>(){"home", "office", "kitchen"};
+var paths = new List<string>() { "home", "office", "kitchen" };
 var server = new WebSocketSharp.Server.WebSocketServer($"ws://0.0.0.0:58000") { ReuseAddress = true };
 foreach (var path in paths)
 {
@@ -18,6 +18,9 @@ while (!quit)
     Console.WriteLine("Websocket State: {0}", server.IsListening ? "Listening" : "Not Listening");
     Console.WriteLine("1. Start WebSocket Server");
     Console.WriteLine("2. Stop WebSocket Server");
+    Console.WriteLine("3. Broadcast message to all clients in home");
+    Console.WriteLine("4. Broadcast message to all clients in office");
+    Console.WriteLine("5. Broadcast message to all clients in kitchen");
     Console.WriteLine("Q. Quit Program");
     var key = Console.ReadKey();
     switch (key.Key)
@@ -31,6 +34,18 @@ while (!quit)
         case ConsoleKey.NumPad2:
             server.Stop(CloseStatusCode.Away, "Server Stopped!");
             Console.WriteLine("Server Stopped!");
+            break;
+        case ConsoleKey.D3:
+        case ConsoleKey.NumPad3:
+            server.WebSocketServices["/home"].Sessions.Broadcast("\"Home Broadcast Message\"");
+            break;
+        case ConsoleKey.D4:
+        case ConsoleKey.NumPad4:
+            server.WebSocketServices["/office"].Sessions.Broadcast("\"Office Broadcast Message\"");
+            break;
+        case ConsoleKey.D5:
+        case ConsoleKey.NumPad6:
+            server.WebSocketServices["/kitchen"].Sessions.Broadcast("\"Kitchen1 Broadcast Message\"");
             break;
         case ConsoleKey.Q:
             quit = true;
