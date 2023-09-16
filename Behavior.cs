@@ -20,9 +20,6 @@ public class Behavior : WebSocketBehavior
                 Debug.WriteLine($"Server Sending Partial State to [{Path}]-{ID.Remove(0,26)}");
                 Send("\"Server sent Partial State\"");
                 break;
-            case "\"Ping\"":
-                Send("\"Pong\"");
-                break;
             default:
                 Debug.WriteLine("Unknown Message Received. Ignoring.");
                 break;
